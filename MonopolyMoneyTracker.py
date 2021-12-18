@@ -7,8 +7,8 @@ print("Enter the player names and press Ctrl + C when done.")
 try:
     while True:
         #ask users for their name
-        playerName = raw_input("\nWhat is your name? ")
-        
+        playerName = input("\nWhat is your name? ")
+
         #store the responses in a dictionary
         if playerName == "":
             print("You didn't type anything. If you're done, press Ctrl + C.")
@@ -25,7 +25,7 @@ print("Press Ctrl + C if you want to exit the programme.")
 
 def quitPlaying():
     print('Are you sure? Type "Yeah, I am so done." if you want to exit.')
-    confirmExit = raw_input()
+    confirmExit = input()
     if confirmExit == "Yeah, I am so done.":
         print("I'm pretty tired myself. Bye!")
         sys.exit(0)
@@ -35,24 +35,24 @@ def quitPlaying():
 while True:
     # Prints out how much money everyone has
     print("\nHere's how much money everyone has:")
-    for key, value in playerList.iteritems():
+    for key, value in playerList.items():
         print('%s: $%s' % (key, '{:,}'.format(value)))
-    
+
     # Asks how much money is being transferred
     while True:
         print ("Type in an amount you would like to DEPOSIT/WITHDRAW.")
         try:
             amount = int(input())
-            break 
+            break
         except KeyboardInterrupt:
             quitPlaying()
         except:
             print ("It is not a integer.")
-    
+
     # Asks from whom the money is being withdrawn from
     while True:
         try:
-            transferFrom = raw_input("\nWho are you withdrawing from? Press ENTER if none.\n")
+            transferFrom = input("\nWho are you withdrawing from? Press ENTER if none.\n")
             if transferFrom == '':
                 break
             elif transferFrom in playerList:
@@ -71,7 +71,7 @@ while True:
     if transferFrom == '' or playerList[transferFrom] > amount:
         while True:
             try:
-                transferTo = raw_input("\nWho are you depositing to? Press ENTER if none.\n")
+                transferTo = input("\nWho are you depositing to? Press ENTER if none.\n")
                 if transferTo == '':
                     break
                 elif transferTo in playerList:
