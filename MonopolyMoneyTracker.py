@@ -43,16 +43,19 @@ while True:
         print ("Type in an amount you would like to DEPOSIT/WITHDRAW.")
         try:
             amount = int(input())
+            if amount < 0:
+                print ("Sorry, it must be a positive number")
+                continue
             break
         except KeyboardInterrupt:
             quitPlaying()
         except:
-            print ("It is not a integer.")
+            print ("That is not an integer.")
 
     # Asks from whom the money is being withdrawn from
     while True:
         try:
-            transferFrom = input("\nWho are you withdrawing from? Press ENTER if none.\n")
+            transferFrom = input("\nWho are you withdrawing $%s from? Press ENTER if none.\n" % '{:,}'.format(amount))
             if transferFrom == '':
                 break
             elif transferFrom in playerList:
@@ -71,7 +74,7 @@ while True:
     if transferFrom == '' or playerList[transferFrom] > amount:
         while True:
             try:
-                transferTo = input("\nWho are you depositing to? Press ENTER if none.\n")
+                transferTo = input("\nWho are you depositing $%s to? Press ENTER if none.\n" % '{:,}'.format(amount))
                 if transferTo == '':
                     break
                 elif transferTo in playerList:
