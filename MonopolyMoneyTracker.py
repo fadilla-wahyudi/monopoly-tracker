@@ -71,16 +71,15 @@ while True:
             quitPlaying()
 
     # Asks to whom the money is being deposited to
-    if transferFrom == '' or playerList[transferFrom] > amount:
-        while True:
-            try:
-                transferTo = input("\nWho are you depositing $%s to? Press ENTER if none.\n" % '{:,}'.format(amount))
-                if transferTo == '':
-                    break
-                elif transferTo in playerList:
-                    playerList[transferTo] = playerList[transferTo] + amount
-                    break
-                else:
-                    print("%s does not exist" % (transferTo))
-            except KeyboardInterrupt:
-                quitPlaying()
+    while True:
+        try:
+            transferTo = input("\nWho are you depositing $%s to? Press ENTER if none.\n" % '{:,}'.format(amount))
+            if transferTo == '':
+                break
+            elif transferTo in playerList:
+                playerList[transferTo] = playerList[transferTo] + amount
+                break
+            else:
+                print("%s does not exist" % (transferTo))
+        except KeyboardInterrupt:
+            quitPlaying()
