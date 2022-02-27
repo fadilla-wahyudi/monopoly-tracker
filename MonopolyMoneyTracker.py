@@ -1,4 +1,6 @@
 import sys
+# Import regular expression module
+import re
 
 # Create empty dictionary and variables
 playerList = {}
@@ -21,7 +23,11 @@ try:
 except KeyboardInterrupt:
     print("\nDone with input")
 
-print("Press Ctrl + C if you want to exit the programme.")
+print ("\nPLEASE READ:")
+print ("Press Ctrl + C if you want to exit the programme.")
+print ("Use k or K to represent 1,000.")
+print ("Use m or M to represent 1,000,000.")
+print ("e.g. 1.2M\n")
 
 def quitPlaying():
     print('Are you sure? Type "Yeah, I am so done." if you want to exit.')
@@ -42,28 +48,36 @@ while True:
     while True:
         print ("Type in an amount you would like to DEPOSIT/WITHDRAW.")
         try:
-            amount = int(input())
-            if amount < 0:
-                print ("Sorry, it must be a positive number")
-                continue
-            break
+            amount = input()
+            # Validate for the correct input
+            if re.match("[1-9](\d{1,3})?(\.\d{1,3})?[m|M|k|K]", amount):
+                amountNum = float(amount[:-1])
+                amountLetter = amount[-1]
+
+                if amountLetter == "m" or amountLetter == "M":
+                  calculatedAmount = int(amountNum * 1000000)
+                if amountLetter == "k" or amountLetter == "K":
+                  calculatedAmount = int(amountNum * 1000)
+                break
+            else:
+              print ("That is an invalid input.")
         except KeyboardInterrupt:
             quitPlaying()
         except:
-            print ("That is not an integer.")
+            print ("That is an invalid input.")
 
     # Asks from whom the money is being withdrawn from
     while True:
         try:
-            transferFrom = input("\nWho are you withdrawing $%s from? Press ENTER if none.\n" % '{:,}'.format(amount))
+            transferFrom = input("\nWho are you withdrawing $%s from? Press ENTER if none.\n" % '{:,}'.format(calculatedAmount))
             if transferFrom == '':
                 break
             elif transferFrom in playerList:
-                if playerList[transferFrom] < amount:
+                if playerList[transferFrom] < calculatedAmount:
                     print ("%s does not have enough money." % transferFrom)
                     break
                 else:
-                    playerList[transferFrom] = playerList[transferFrom] - amount
+                    playerList[transferFrom] = playerList[transferFrom] - calculatedAmount
                     break
             else:
                 print("%s does not exist" % (transferFrom))
@@ -73,11 +87,11 @@ while True:
     # Asks to whom the money is being deposited to
     while True:
         try:
-            transferTo = input("\nWho are you depositing $%s to? Press ENTER if none.\n" % '{:,}'.format(amount))
+            transferTo = input("\nWho are you depositing $%s to? Press ENTER if none.\n" % '{:,}'.format(calculatedAmount))
             if transferTo == '':
                 break
             elif transferTo in playerList:
-                playerList[transferTo] = playerList[transferTo] + amount
+                playerList[transferTo] = playerList[transferTo] + calculatedAmount
                 break
             else:
                 print("%s does not exist" % (transferTo))
